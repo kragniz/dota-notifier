@@ -39,7 +39,6 @@ class Dota(object):
         return self.__get('GetLiveLeagueGames', key=self.key, language=self.lang)
 
 if __name__ == '__main__':
-    import pprint
     d = Dota()
     games = d.live_league_games()
     for g in games['result']['games']:
