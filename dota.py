@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-
 #This program is free software: you can redistribute it and/or modify
 #it under the terms of the GNU General Public License as published by
 #the Free Software Foundation, either version 3 of the License, or
@@ -18,25 +17,25 @@ import urllib2
 import config
 
 class Dota(object):
-    key = config.apiKey
     url = 'https://api.steampowered.com/IDOTA2Match_570/%s/V001/?'
     lang = 'en_us'
 
     def __get(self, method, *args, **kwargs):
+        kwargs['key'] = config.apiKey
         url = self.url % (method) + '&'.join([str(keys) + '=' + str(items) for keys, items in kwargs.items()])
         return json.loads(urllib2.urlopen(url).read())
 
     def match_history(self, *args, **kwargs):
-        return self.__get('GetMatchHistory', key=self.key, *args, **kwargs)
+        return self.__get('GetMatchHistory', *args, **kwargs)
 
     def match_details(self, matchid):
-        return self.__get('GetMatchDetails', key=self.key, match_id=matchid)
+        return self.__get('GetMatchDetails', match_id=matchid)
 
     def league_listing(self):
-        return self.__get('GetLeagueListing', key=self.key, langage=self.lang)
+        return self.__get('GetLeagueListing', langage=self.lang)
 
     def live_league_games(self):
-        return self.__get('GetLiveLeagueGames', key=self.key, language=self.lang)
+        return self.__get('GetLiveLeagueGames', language=self.lang)
 
 if __name__ == '__main__':
     d = Dota()
