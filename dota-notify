@@ -2,6 +2,8 @@
 import json
 import urllib2
 import config
+import time
+import pynotify
 
 class Dota(object):
     url = 'https://api.steampowered.com/IDOTA2Match_570/%s/V001/?'
@@ -24,14 +26,23 @@ class Dota(object):
     def live_league_games(self):
         return self.__get('GetLiveLeagueGames', language=self.lang)
 
-    def current_game_ids(self):
-        games = self.live_league_games()
-        return [g['lobby_id'] for g in games['result']['games']]
-
 if __name__ == '__main__':
+    if not pynotify.init('dota-notify'):
+        sys.exit(1)
+
+    note = pynotify.Notification('', '')
     d = Dota()
-    games = d.live_league_games()
-    for g in games['result']['games']:
-        print g['lobby_id']
-        print '"%s" vs "%s"' % (g['dire_team']['team_name'],
-                                g['radiant_team']['team_name'])
+    currentGames = []
+    while True:
+        games = d.live_league_games()
+        for game in games['result']['games']:
+            if game['lobby_id'] not in currentGames:
+                currentGames.append(game['lobby_id'])
+                message = '%s vs %s' % (game['dire_team']['team_name'],
+                                            game['radiant_team']['team_name'])
+                title = 'Live Match:'
+                note.update(title, message, 'appointment-soon')
+                note.show()
+        currentGames =  [g['lobby_id'] for g in games['result']['games']]
+        time.sleep(30)
+    note.close()
