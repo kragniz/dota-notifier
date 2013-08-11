@@ -24,6 +24,10 @@ class Dota(object):
     def live_league_games(self):
         return self.__get('GetLiveLeagueGames', language=self.lang)
 
+    def current_game_ids(self):
+        games = self.live_league_games()
+        return [g['lobby_id'] for g in games['result']['games']]
+
 if __name__ == '__main__':
     d = Dota()
     games = d.live_league_games()
