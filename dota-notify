@@ -2,6 +2,7 @@
 import dotanotify
 import time
 import pynotify
+import urllib2
 
 if __name__ == '__main__':
     if not pynotify.init('dota-notify'):
