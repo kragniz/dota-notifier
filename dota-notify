@@ -34,7 +34,11 @@ if __name__ == '__main__':
     d = Dota()
     currentGames = []
     while True:
-        games = d.live_league_games()
+        try:
+            games = d.live_league_games()
+        except urllib2.URLError, e:
+            print 'Dota network down at', time.asctime(), e
+
         for game in games['result']['games']:
             if game['lobby_id'] not in currentGames:
                 currentGames.append(game['lobby_id'])
