@@ -13,9 +13,9 @@ Usage
 
 Run
 
-    sudo python setup.py install
+    $ python setup.py install
 
-to install for all users.
+as root to install for all users.
 
 Run
 
