@@ -19,6 +19,6 @@ as root to install for all users.
 
 Run
 
-    dota-notify
+    $ dota-notify
 
 to run the program.
