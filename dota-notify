@@ -22,10 +22,11 @@ if __name__ == '__main__':
                 if game['lobby_id'] not in currentGames:
                     currentGames.append(game['lobby_id'])
                     message = '%s vs %s' % (game['dire_team']['team_name'],
-                                                game['radiant_team']['team_name'])
+                                            game['radiant_team']['team_name'])
                     title = 'Live Match:'
                     note.update(title, message, 'appointment-soon')
                     note.show()
+
             currentGames =  [g['lobby_id'] for g in games['result']['games']]
             time.sleep(30)
     finally:
